@@ -2,6 +2,7 @@ package tech.thatgravyboat.knickknacks;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Rarity;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
@@ -20,6 +21,13 @@ public class Knickknacks {
 
     public static final String MODID = "knickknacks";
     private static final Logger LOGGER = LogUtils.getLogger();
+
+    public static final Rarity[] RARITIES = {
+            Rarity.COMMON,
+            Rarity.UNCOMMON,
+            Rarity.RARE,
+            Rarity.EPIC
+    };
 
     public Knickknacks(IEventBus bus) {
         bus.addListener(Knickknacks::onRegisterCapabilities);

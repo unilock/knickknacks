@@ -22,7 +22,7 @@ public class ModCreativeTabs {
             .displayItems((parameters, output) -> {
                 for (var entry : ModItems.ITEMS.getEntries()) {
                     if (entry.get() instanceof PerkItem) {
-                        for (Rarity value : Rarity.values()) {
+                        for (Rarity value : Knickknacks.RARITIES) {
                             ItemStack stack = new ItemStack(entry.get());
                             stack.set(DataComponents.RARITY, value);
                             output.accept(stack);

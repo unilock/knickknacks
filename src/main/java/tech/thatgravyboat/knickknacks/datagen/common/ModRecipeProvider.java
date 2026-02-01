@@ -7,7 +7,6 @@ import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.SmithingTransformRecipe;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
@@ -21,13 +20,6 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModRecipeProvider extends RecipeProvider {
 
-    private static final Rarity[] RARITIES = {
-            Rarity.COMMON,
-            Rarity.UNCOMMON,
-            Rarity.RARE,
-            Rarity.EPIC
-    };
-
     public ModRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries);
     }
@@ -38,12 +30,12 @@ public class ModRecipeProvider extends RecipeProvider {
                 .map(DeferredHolder::get)
                 .filter(entry -> entry instanceof PerkItem)
                 .toArray(Item[]::new);
-        for (int i = 0; i < RARITIES.length; i++) {
+        for (int i = 0; i < Knickknacks.RARITIES.length; i++) {
             ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.SCRAP, i + 1)
                     .requires(ModItems.HAMMER)
-                    .requires(DataComponentIngredient.of(false, DataComponents.RARITY, RARITIES[i], perkItems))
+                    .requires(DataComponentIngredient.of(false, DataComponents.RARITY, Knickknacks.RARITIES[i], perkItems))
                     .unlockedBy("has_item", has(ModItems.HAMMER))
-                    .save(output, Knickknacks.id("scrap_%s".formatted(RARITIES[i].getSerializedName())));
+                    .save(output, Knickknacks.id("scrap_%s".formatted(Knickknacks.RARITIES[i].getSerializedName())));
         }
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.UPGRADE, 1)
@@ -66,9 +58,9 @@ public class ModRecipeProvider extends RecipeProvider {
 
         for (var entry : ModItems.ITEMS.getEntries()) {
             if (entry.get() instanceof PerkItem item) {
-                for (int i = 0; i < RARITIES.length - 1; i++) {
-                    var rarity = RARITIES[i];
-                    var nextRarity = RARITIES[i + 1];
+                for (int i = 0; i < Knickknacks.RARITIES.length - 1; i++) {
+                    var rarity = Knickknacks.RARITIES[i];
+                    var nextRarity = Knickknacks.RARITIES[i + 1];
                     ItemStack itemStack = new ItemStack(item);
                     itemStack.set(DataComponents.RARITY, nextRarity);
                     output.accept(
